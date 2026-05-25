@@ -1,14 +1,14 @@
 import asyncio
 from livekit import agents
 from livekit.agents import AgentSession, Agent, RoomInputOptions
-from livekit.plugins import deepgram, openai, cartesia, silero
+from livekit.plugins import openai, cartesia, silero
 
 
 async def entrypoint(ctx: agents.JobContext):
     await ctx.connect()
 
     session = AgentSession(
-        stt=deepgram.STT(model="nova-3"),
+        stt=cartesia.STT(model="ink-whisper"),
         llm=openai.LLM(model="gpt-4o-mini"),
         tts=cartesia.TTS(),
         vad=silero.VAD.load(),
