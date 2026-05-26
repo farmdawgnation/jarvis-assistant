@@ -9,7 +9,10 @@ async def entrypoint(ctx: agents.JobContext):
 
     session = AgentSession(
         stt=cartesia.STT(model="ink-whisper"),
-        llm=openai.LLM(model="gpt-4o-mini"),
+        llm=openai.LLM.with_ollama(
+            model="gpt-oss:20b-cloud",
+            base_url="https://ollama.com/v1",
+        ),
         tts=cartesia.TTS(),
         vad=silero.VAD.load(),
     )
