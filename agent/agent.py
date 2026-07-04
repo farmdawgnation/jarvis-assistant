@@ -1,6 +1,11 @@
+import os
+
+from dotenv import load_dotenv
 from livekit import agents
 from livekit.agents import Agent, AgentSession, RoomInputOptions
 from livekit.plugins import cartesia, openai, silero
+
+load_dotenv()
 
 
 async def entrypoint(ctx: agents.JobContext):
