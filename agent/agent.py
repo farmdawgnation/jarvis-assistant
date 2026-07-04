@@ -1,7 +1,6 @@
-import asyncio
 from livekit import agents
-from livekit.agents import AgentSession, Agent, RoomInputOptions
-from livekit.plugins import openai, cartesia, silero
+from livekit.agents import Agent, AgentSession, RoomInputOptions
+from livekit.plugins import cartesia, openai, silero
 
 
 async def entrypoint(ctx: agents.JobContext):
@@ -22,7 +21,7 @@ async def entrypoint(ctx: agents.JobContext):
         agent=Agent(
             instructions="You are a helpful voice assistant. Keep responses concise and conversational."
         ),
-        room_input_options=RoomInputOptions(noise_cancellation=True),
+        room_input_options=RoomInputOptions(),
     )
 
 
