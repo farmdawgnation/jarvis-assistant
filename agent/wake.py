@@ -31,9 +31,11 @@ class WakeWordListener:
             while True:
                 data = stream.read(CHUNK, exception_on_overflow=False)
                 arr = np.frombuffer(data, dtype=np.int16)
+                volume = np.sqrt(np.mean(arr.astype(np.float32) ** 2))
                 result = self.model.predict(arr)
                 scores = result[0] if isinstance(result, tuple) else result
                 for name, score in scores.items():
+                    print(f"Score for {name}: {score:.2f} | Volume: {volume:.0f}")
                     if score > THRESHOLD:
                         print(f"Wake word detected! ({name}: {score:.2f})")
                         return True

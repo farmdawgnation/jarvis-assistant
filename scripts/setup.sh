@@ -41,6 +41,9 @@ echo "==> Installing Python dependencies..."
 "$PROJECT_ROOT/.venv/bin/pip" install --upgrade pip
 "$PROJECT_ROOT/.venv/bin/pip" install -r "$PROJECT_ROOT/agent/requirements.txt"
 
+echo "==> Downloading openwakeword model files..."
+"$PROJECT_ROOT/.venv/bin/python" -c "from openwakeword.utils import download_models; download_models(['hey_jarvis'])"
+
 echo ""
 echo "============================================================"
 echo "  Setup complete!"

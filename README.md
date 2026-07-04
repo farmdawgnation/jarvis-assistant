@@ -155,3 +155,4 @@ Additional tunable constants in `agent/wake.py`:
 - **Agent worker must start before wake word listener** — the systemd `After=livekit-agent.service` dependency handles this automatically.
 - **Cartesia and Deepgram stream over HTTPS** — the Pi needs outbound internet access on port 443. Local-only network setups will not work.
 - **Docker group membership** — after `scripts/setup.sh`, you must log out and back in (or run `newgrp docker`) before `docker` commands work without `sudo`.
+- **openwakeword ships without model weights** — the package only contains code; `scripts/setup.sh` downloads the required `.onnx` files after installing dependencies. If you installed the Python deps another way, run `.venv/bin/python -c "from openwakeword.utils import download_models; download_models(['hey_jarvis'])"` once to fetch them.
