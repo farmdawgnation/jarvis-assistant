@@ -7,18 +7,19 @@ pyaudio
 # Inference framework - install the appropriate one for your platform:
 #
 # Raspberry Pi / Linux ARM:
-#   pip install tflite-runtime
+#   uv pip install tflite-runtime
 #
 # macOS ARM64 (Apple Silicon):
 #   Requires Python 3.13 (no wheels for 3.14)
-#   pip install tensorflow
+#   uv pip install 'tensorflow<2.20'
 #   Then set up the tflite_runtime shim:
-#     SITE=$(python -c "import site; print(site.getsitepackages()[0])")
+#     SITE=$(uv run python -c "import site; print(site.getsitepackages()[0])")
 #     mkdir -p "$SITE/tflite_runtime"
 #     touch "$SITE/tflite_runtime/__init__.py"
 #     echo 'from tensorflow.lite.python.interpreter import Interpreter' > "$SITE/tflite_runtime/interpreter.py"
 #     echo 'from tensorflow.lite.python.interpreter import load_delegate' >> "$SITE/tflite_runtime/interpreter.py"
+#   (Or just run agent/setup_macos.sh, which does this for you.)
 #
 # Fallback (any platform):
-#   pip install onnxruntime
+#   uv pip install onnxruntime
 #   Note: ONNX has known issues on macOS ARM64 (produces near-zero scores)

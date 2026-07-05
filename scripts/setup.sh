@@ -17,10 +17,9 @@ sudo apt install -y \
   docker.io \
   docker-compose-plugin \
   portaudio19-dev \
-  python3-pyaudio \
-  python3-pip \
-  python3-venv \
-  alsa-utils
+  python3 \
+  alsa-utils \
+  curl
 
 echo "==> Adding $USER to docker group..."
 sudo usermod -aG docker "$USER"
@@ -30,19 +29,27 @@ sudo ufw allow 7880/tcp
 sudo ufw allow 7881/tcp
 sudo ufw allow 50000:60000/udp
 
+echo "==> Installing uv (Astral)..."
+if ! command -v uv >/dev/null 2>&1; then
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+# uv installs to ~/.local/bin; make it available for the rest of this script
+export PATH="$HOME/.local/bin:$PATH"
+
 # Resolve the project root (one level up from this script's directory)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "==> Creating Python virtual environment at $PROJECT_ROOT/.venv ..."
-python3 -m venv "$PROJECT_ROOT/.venv"
+uv venv "$PROJECT_ROOT/.venv"
 
 echo "==> Installing Python dependencies..."
-"$PROJECT_ROOT/.venv/bin/pip" install --upgrade pip
-"$PROJECT_ROOT/.venv/bin/pip" install -r "$PROJECT_ROOT/agent/requirements.txt"
+uv pip install --python "$PROJECT_ROOT/.venv/bin/python" \
+  -r "$PROJECT_ROOT/agent/requirements.txt"
 
 echo "==> Downloading openwakeword model files..."
-"$PROJECT_ROOT/.venv/bin/python" -c "from openwakeword.utils import download_models; download_models(['hey_jarvis'])"
+( cd "$PROJECT_ROOT" && uv run python -c \
+  "from openwakeword.utils import download_models; download_models(['hey_jarvis'])" )
 
 echo ""
 echo "============================================================"

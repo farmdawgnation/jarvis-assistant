@@ -4,9 +4,9 @@ After=livekit-agent.service sound.target
 
 [Service]
 User=pi
-WorkingDirectory=/home/pi/pi-voice-agent/agent
-EnvironmentFile=/home/pi/pi-voice-agent/.env
-ExecStart=/home/pi/pi-voice-agent/.venv/bin/python main.py
+WorkingDirectory=/home/pi/jarvis-assistant/agent
+EnvironmentFile=/home/pi/jarvis-assistant/.env
+ExecStart=/home/pi/jarvis-assistant/.venv/bin/python main.py
 Restart=on-failure
 RestartSec=5
 
